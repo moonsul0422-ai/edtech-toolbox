@@ -59,9 +59,9 @@ h1 u{text-decoration:none;background:linear-gradient(transparent 82%,var(--pink)
 .searchrow input::placeholder{color:var(--chalk-3)}
 .searchrow select{background:var(--board-2);color:var(--chalk);border:1.5px solid var(--chalk-3);border-radius:999px;padding:6px 12px;font:15px var(--body)}
 .hint{font-size:13px;color:var(--chalk-3);margin-top:-4px}
-.frow{display:grid;grid-template-columns:66px minmax(0,1fr);gap:6px 10px;align-items:start;min-width:0}
+.frow{display:grid;grid-template-columns:66px 1fr;gap:6px 10px;align-items:start}
 .frow .lab{font:20px/1 var(--hand);color:var(--chalk-2);padding-top:6px}
-.frow .chips{display:flex;flex-wrap:wrap;gap:6px 8px;align-items:center;min-width:0;max-width:100%}
+.frow .chips{display:flex;flex-wrap:wrap;gap:6px 8px;align-items:center}
 .chip{appearance:none;cursor:pointer;max-width:100%;background:transparent;color:var(--chalk-2);border:1.5px solid var(--chalk-3);border-radius:999px;font:14.5px var(--body);padding:3px 13px;white-space:nowrap}
 .chip small{color:var(--chalk-3);margin-left:4px;font-variant-numeric:tabular-nums}
 .chip[aria-pressed="true"]{border-color:var(--yellow);color:var(--board);background:var(--yellow)}
@@ -73,14 +73,14 @@ details.filt>summary::-webkit-details-marker{display:none}
 details.filt>summary::before{content:"＋ "}
 details.filt[open]>summary::before{content:"－ "}
 details.filt>summary small{font:14px var(--body);color:var(--chalk-2);margin-left:6px}
-details.filt .inner{display:grid;gap:10px;margin-top:8px;min-width:0}
+details.filt .inner{display:grid;gap:10px;margin-top:8px}
 .subrule{border:0;border-top:1px dashed var(--line);margin:4px 0 0}
 .fnote{margin:10px 0 0;font-size:13.5px;color:var(--chalk-3)}
 .status{display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap;margin:22px 0 14px;color:var(--chalk-2);font-size:15px}
 .status b{color:var(--chalk)}
 .linkbtn{appearance:none;background:none;border:0;color:var(--yellow);cursor:pointer;text-decoration:underline;text-underline-offset:3px;padding:0;font-size:inherit}
 /* 자석 게시물 */
-.magnets{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,250px),1fr));gap:24px 20px}
+.magnets{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:24px 20px}
 .note{position:relative;background:var(--paper);color:var(--paper-ink);padding:22px 18px 14px;border-radius:2px;cursor:pointer;
   box-shadow:0 8px 16px rgba(0,0,0,.28);transition:transform .18s;display:flex;flex-direction:column;gap:3px;min-height:188px}
 .note:nth-child(3n+1){transform:rotate(-.35deg)} .note:nth-child(3n+2){transform:rotate(.3deg)}
@@ -168,13 +168,10 @@ tr.go{cursor:pointer} tr.go:hover td{background:var(--board-2)}
 .foot{margin:30px auto 0;max-width:1240px;font-size:13.5px;color:#E3D6C1;display:flex;flex-wrap:wrap;gap:4px 22px}
 .foot a{color:#F2E3C8}
 @media (max-width:600px){
-  /* 칸 수를 화면 폭이 정한다. 칩은 칸 안을 채우므로 밖으로 나갈 수 없다 */
-  .frow .chips{display:grid;grid-template-columns:repeat(auto-fit,minmax(110px,1fr));gap:6px;width:100%;min-width:0}
-  .chip{white-space:normal;word-break:keep-all;text-align:center;padding:6px 6px;min-width:0}
-  .chip small{margin-left:4px}
+  .chip{white-space:normal;word-break:keep-all}
   .top{flex-direction:column;gap:2px}
   .corner{text-align:left;line-height:1.25}
-  .frow{grid-template-columns:minmax(0,1fr);gap:4px}
+  .frow{grid-template-columns:1fr;gap:4px}
   .frow .lab{padding-top:2px}
   h1{font-size:40px;margin:2px 0 6px}
   h1 .brk{display:inline}
@@ -392,7 +389,7 @@ function findView(){
   <div class="find" role="search">
     <div class="searchrow">
       <label class="sr" for="q">도구 검색</label>
-      <input id="q" type="search" value="${esc(st.q)}" placeholder="${window.innerWidth<600?"무엇을 가르치나요?":"무엇을 가르치나요? 예: 퀴즈, 받아쓰기, ㄸㅋㅂ"}">
+      <input id="q" type="search" value="${esc(st.q)}" placeholder="${window.innerWidth<600?"예: 퀴즈, 받아쓰기, ㄸㅋㅂ":"무엇을 가르치나요? 예: 퀴즈, 받아쓰기, ㄸㅋㅂ"}">
     </div>
     <div class="hint">비슷한 말도 함께 찾습니다(퀴즈 → 형성평가). 초성만 써도 됩니다(ㄸㅋㅂ → 띵커벨).</div>
     <details class="filt" id="filt"${fopen?" open":""}><summary>조건 고르기<small id="fsum">${esc(activeText())}</small></summary><div class="inner" id="finner">${filterRows()}</div><p class="fnote">같은 줄에서 여러 개를 골라도 됩니다. 고른 것 중 하나라도 맞으면 나옵니다. 교과를 고르면 어느 교과에서나 쓰는 '전 교과' 도구도 함께 나옵니다.</p></details>
