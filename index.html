@@ -31,7 +31,7 @@ button{font:inherit;color:inherit}
 mark{background:rgba(242,210,107,.35);color:inherit;border-radius:2px;padding:0 1px}
 .note mark{background:#F7E08A}
 .sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
-.board{max-width:1240px;margin:0 auto;background:var(--board);border:14px solid var(--frame);border-radius:6px;position:relative;
+.board{max-width:min(1680px,96vw);margin:0 auto;background:var(--board);border:14px solid var(--frame);border-radius:6px;position:relative;
   background-image:radial-gradient(ellipse at 18% 8%,rgba(255,255,255,.06),transparent 55%),radial-gradient(ellipse at 85% 75%,rgba(255,255,255,.04),transparent 50%);
   box-shadow:inset 0 0 90px rgba(0,0,0,.35);padding:30px clamp(16px,4vw,56px) 40px;min-height:70vh}
 .top{display:flex;justify-content:space-between;gap:16px;align-items:flex-start;flex-wrap:wrap}
@@ -59,9 +59,9 @@ h1 u{text-decoration:none;background:linear-gradient(transparent 82%,var(--pink)
 .searchrow input::placeholder{color:var(--chalk-3)}
 .searchrow select{background:var(--board-2);color:var(--chalk);border:1.5px solid var(--chalk-3);border-radius:999px;padding:6px 12px;font:15px var(--body)}
 .hint{font-size:13px;color:var(--chalk-3);margin-top:-4px}
-.frow{display:grid;grid-template-columns:66px 1fr;gap:6px 10px;align-items:start}
+.frow{display:grid;grid-template-columns:66px minmax(0,1fr);gap:6px 10px;align-items:start;min-width:0}
 .frow .lab{font:20px/1 var(--hand);color:var(--chalk-2);padding-top:6px}
-.frow .chips{display:flex;flex-wrap:wrap;gap:6px 8px;align-items:center}
+.frow .chips{display:flex;flex-wrap:wrap;gap:6px 8px;align-items:center;min-width:0;max-width:100%}
 .chip{appearance:none;cursor:pointer;max-width:100%;background:transparent;color:var(--chalk-2);border:1.5px solid var(--chalk-3);border-radius:999px;font:14.5px var(--body);padding:3px 13px;white-space:nowrap}
 .chip small{color:var(--chalk-3);margin-left:4px;font-variant-numeric:tabular-nums}
 .chip[aria-pressed="true"]{border-color:var(--yellow);color:var(--board);background:var(--yellow)}
@@ -73,16 +73,16 @@ details.filt>summary::-webkit-details-marker{display:none}
 details.filt>summary::before{content:"＋ "}
 details.filt[open]>summary::before{content:"－ "}
 details.filt>summary small{font:14px var(--body);color:var(--chalk-2);margin-left:6px}
-details.filt .inner{display:grid;gap:10px;margin-top:8px}
+details.filt .inner{display:grid;gap:10px;margin-top:8px;min-width:0}
 .subrule{border:0;border-top:1px dashed var(--line);margin:4px 0 0}
 .fnote{margin:10px 0 0;font-size:13.5px;color:var(--chalk-3)}
 .status{display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap;margin:22px 0 14px;color:var(--chalk-2);font-size:15px}
 .status b{color:var(--chalk)}
 .linkbtn{appearance:none;background:none;border:0;color:var(--yellow);cursor:pointer;text-decoration:underline;text-underline-offset:3px;padding:0;font-size:inherit}
 /* 자석 게시물 */
-.magnets{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:24px 20px}
+.magnets{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,290px),1fr));gap:26px 22px}
 .note{position:relative;background:var(--paper);color:var(--paper-ink);padding:22px 18px 14px;border-radius:2px;cursor:pointer;
-  box-shadow:0 8px 16px rgba(0,0,0,.28);transition:transform .18s;display:flex;flex-direction:column;gap:3px;min-height:188px}
+  box-shadow:0 8px 16px rgba(0,0,0,.28);transition:transform .18s;display:flex;flex-direction:column;gap:3px;min-height:200px}
 .note:nth-child(3n+1){transform:rotate(-.35deg)} .note:nth-child(3n+2){transform:rotate(.3deg)}
 .note:hover{transform:rotate(0) translateY(-3px)}
 .note::before{content:"";position:absolute;top:-9px;left:50%;width:20px;height:20px;margin-left:-10px;border-radius:50%;background:var(--m);box-shadow:inset -3px -3px 0 rgba(0,0,0,.2),0 2px 3px rgba(0,0,0,.35)}
@@ -91,7 +91,7 @@ details.filt .inner{display:grid;gap:10px;margin-top:8px}
 .note .nm::after{content:"";position:absolute;inset:0;z-index:1}
 .note .nm:focus-visible{outline:none}
 .note:has(.nm:focus-visible){outline:2px dashed var(--yellow);outline-offset:4px}
-.note .sub{font-size:13.5px;color:#3E4C45;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
+.note .sub{font-size:14px;color:#3E4C45;display:-webkit-box;-webkit-line-clamp:4;-webkit-box-orient:vertical;overflow:hidden}
 .note .tags{display:flex;flex-wrap:wrap;gap:4px;margin-top:4px}
 .note .tg{font-size:11.5px;border:1px solid var(--paper-line);border-radius:3px;padding:0 6px;color:var(--paper-2)}
 .note .tg.warn{border-style:dashed;color:var(--paper-3)}
@@ -165,13 +165,16 @@ tr.go{cursor:pointer} tr.go:hover td{background:var(--board-2)}
 .flow li::before{content:counter(f);font:30px/1 var(--hand);color:var(--yellow);display:block;margin-bottom:4px}
 .flow b{color:var(--chalk);display:block;font-weight:400;font-family:var(--display);font-size:19px}
 .warn{border-left:3px solid var(--pink);padding-left:14px}
-.foot{margin:30px auto 0;max-width:1240px;font-size:13.5px;color:#E3D6C1;display:flex;flex-wrap:wrap;gap:4px 22px}
+.foot{margin:30px auto 0;max-width:min(1680px,96vw);font-size:13.5px;color:#E3D6C1;display:flex;flex-wrap:wrap;gap:4px 22px}
 .foot a{color:#F2E3C8}
 @media (max-width:600px){
-  .chip{white-space:normal;word-break:keep-all}
+  /* 칸 수를 화면 폭이 정한다. 칩은 칸 안을 채우므로 밖으로 나갈 수 없다 */
+  .frow .chips{display:grid;grid-template-columns:repeat(auto-fit,minmax(110px,1fr));gap:6px;width:100%;min-width:0}
+  .chip{white-space:normal;word-break:keep-all;text-align:center;padding:6px 6px;min-width:0}
+  .chip small{margin-left:4px}
   .top{flex-direction:column;gap:2px}
   .corner{text-align:left;line-height:1.25}
-  .frow{grid-template-columns:1fr;gap:4px}
+  .frow{grid-template-columns:minmax(0,1fr);gap:4px}
   .frow .lab{padding-top:2px}
   h1{font-size:40px;margin:2px 0 6px}
   h1 .brk{display:inline}
@@ -216,6 +219,12 @@ tr.go{cursor:pointer} tr.go:hover td{background:var(--board-2)}
   .c-nm{width:15%}.c-cat{width:7%}.c-tgt{width:13%}.c-sub{width:17%}
   .c-fee{width:9%}.c-env{width:20%}.c-chk{width:13%}.c-case{width:6%;text-align:right}
   thead{display:table-header-group}
+}
+/* 큰 화면에서는 소개를 더 많이 보여 준다 */
+@media (min-width:1500px){
+  .note .sub{-webkit-line-clamp:6;font-size:14.5px}
+  .note{min-height:224px;padding:24px 20px 16px}
+  .note .nm{font-size:23px}
 }
 </style>
 </head>
@@ -389,7 +398,7 @@ function findView(){
   <div class="find" role="search">
     <div class="searchrow">
       <label class="sr" for="q">도구 검색</label>
-      <input id="q" type="search" value="${esc(st.q)}" placeholder="${window.innerWidth<600?"예: 퀴즈, 받아쓰기, ㄸㅋㅂ":"무엇을 가르치나요? 예: 퀴즈, 받아쓰기, ㄸㅋㅂ"}">
+      <input id="q" type="search" value="${esc(st.q)}" placeholder="${window.innerWidth<600?"무엇을 가르치나요?":"무엇을 가르치나요? 예: 퀴즈, 받아쓰기, ㄸㅋㅂ"}">
     </div>
     <div class="hint">비슷한 말도 함께 찾습니다(퀴즈 → 형성평가). 초성만 써도 됩니다(ㄸㅋㅂ → 띵커벨).</div>
     <details class="filt" id="filt"${fopen?" open":""}><summary>조건 고르기<small id="fsum">${esc(activeText())}</small></summary><div class="inner" id="finner">${filterRows()}</div><p class="fnote">같은 줄에서 여러 개를 골라도 됩니다. 고른 것 중 하나라도 맞으면 나옵니다. 교과를 고르면 어느 교과에서나 쓰는 '전 교과' 도구도 함께 나옵니다.</p></details>
