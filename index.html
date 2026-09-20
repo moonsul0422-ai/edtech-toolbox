@@ -59,9 +59,9 @@ h1 u{text-decoration:none;background:linear-gradient(transparent 82%,var(--pink)
 .searchrow input::placeholder{color:var(--chalk-3)}
 .searchrow select{background:var(--board-2);color:var(--chalk);border:1.5px solid var(--chalk-3);border-radius:999px;padding:6px 12px;font:15px var(--body)}
 .hint{font-size:13px;color:var(--chalk-3);margin-top:-4px}
-.frow{display:grid;grid-template-columns:66px 1fr;gap:6px 10px;align-items:start}
+.frow{display:grid;grid-template-columns:66px minmax(0,1fr);gap:6px 10px;align-items:start;min-width:0}
 .frow .lab{font:20px/1 var(--hand);color:var(--chalk-2);padding-top:6px}
-.frow .chips{display:flex;flex-wrap:wrap;gap:6px 8px;align-items:center}
+.frow .chips{display:flex;flex-wrap:wrap;gap:6px 8px;align-items:center;min-width:0;max-width:100%}
 .chip{appearance:none;cursor:pointer;max-width:100%;background:transparent;color:var(--chalk-2);border:1.5px solid var(--chalk-3);border-radius:999px;font:14.5px var(--body);padding:3px 13px;white-space:nowrap}
 .chip small{color:var(--chalk-3);margin-left:4px;font-variant-numeric:tabular-nums}
 .chip[aria-pressed="true"]{border-color:var(--yellow);color:var(--board);background:var(--yellow)}
@@ -73,7 +73,7 @@ details.filt>summary::-webkit-details-marker{display:none}
 details.filt>summary::before{content:"＋ "}
 details.filt[open]>summary::before{content:"－ "}
 details.filt>summary small{font:14px var(--body);color:var(--chalk-2);margin-left:6px}
-details.filt .inner{display:grid;gap:10px;margin-top:8px}
+details.filt .inner{display:grid;gap:10px;margin-top:8px;min-width:0}
 .subrule{border:0;border-top:1px dashed var(--line);margin:4px 0 0}
 .fnote{margin:10px 0 0;font-size:13.5px;color:var(--chalk-3)}
 .status{display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap;margin:22px 0 14px;color:var(--chalk-2);font-size:15px}
@@ -169,12 +169,12 @@ tr.go{cursor:pointer} tr.go:hover td{background:var(--board-2)}
 .foot a{color:#F2E3C8}
 @media (max-width:600px){
   /* 칸 수를 화면 폭이 정한다. 칩은 칸 안을 채우므로 밖으로 나갈 수 없다 */
-  .frow .chips{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,110px),1fr));gap:6px}
+  .frow .chips{display:grid;grid-template-columns:repeat(auto-fit,minmax(110px,1fr));gap:6px;width:100%;min-width:0}
   .chip{white-space:normal;word-break:keep-all;text-align:center;padding:6px 6px;min-width:0}
   .chip small{margin-left:4px}
   .top{flex-direction:column;gap:2px}
   .corner{text-align:left;line-height:1.25}
-  .frow{grid-template-columns:1fr;gap:4px}
+  .frow{grid-template-columns:minmax(0,1fr);gap:4px}
   .frow .lab{padding-top:2px}
   h1{font-size:40px;margin:2px 0 6px}
   h1 .brk{display:inline}
