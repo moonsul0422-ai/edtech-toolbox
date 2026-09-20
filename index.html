@@ -53,7 +53,7 @@ h1 u{text-decoration:none;background:linear-gradient(transparent 82%,var(--pink)
 .nums b{font:400 40px/1 var(--display);color:var(--chalk);font-variant-numeric:tabular-nums}
 .nums li:nth-child(2) b{color:var(--yellow)}
 /* 찾기 */
-.find{border-top:1px dashed var(--line);padding-top:18px;display:grid;gap:10px;min-width:0;max-width:100%}
+.find{border-top:1px dashed var(--line);padding-top:18px;display:grid;gap:10px;min-width:0;width:var(--inner,auto);max-width:100%}
 .searchrow{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
 .searchrow input{flex:1 1 320px;min-width:0;background:transparent;border:0;border-bottom:2px solid var(--chalk-3);color:var(--chalk);font:20px var(--body);padding:8px 2px}
 .searchrow input::placeholder{color:var(--chalk-3)}
@@ -520,6 +520,17 @@ function picksView(){
   <div class="tblwrap"><table><thead><tr><th class="c-nm">도구</th><th class="c-cat">구분</th><th class="c-tgt">대상</th><th class="c-sub">교과</th><th class="c-fee">요금</th><th class="c-env">기기</th><th class="c-chk">필수기준</th><th class="c-case">사례</th><th class="c-rm"></th></tr></thead><tbody>${rows}</tbody></table></div>`;
 }
 
+/* 칠판 안쪽 폭을 직접 재서 물려준다 (브라우저마다 계산이 어긋나는 것을 막는다) */
+function setInner(){
+  const b=document.getElementById("app"); if(!b)return;
+  const cs=getComputedStyle(b);
+  const w=b.clientWidth-parseFloat(cs.paddingLeft)-parseFloat(cs.paddingRight);
+  if(w>0)document.documentElement.style.setProperty("--inner",Math.floor(w)+"px");
+}
+addEventListener("resize",setInner);
+addEventListener("orientationchange",()=>setTimeout(setInner,100));
+if(window.visualViewport)visualViewport.addEventListener("resize",setInner);
+
 /* 화면 이동: 주소를 바꾸지 않고 파일 안에서만 */
 const view=document.getElementById("view");
 let current={name:"find",id:null}, findScroll=0;
@@ -534,7 +545,7 @@ function go(name,id){
   render(name==="find");
 }
 function render(restore){
-  updateNav();
+  updateNav(); setInner();
   if(current.name==="tool"){const d=D.find(x=>x.id===current.id);view.innerHTML=toolView(current.id);document.title=((d&&(d.dn||d.n))||"도구")+" · 에듀테크 도구함";window.scrollTo(0,0);return}
   if(current.name==="group"){view.innerHTML=groupView(current.id);document.title="AI·디지털 교육자료 · 에듀테크 도구함";window.scrollTo(0,0);return}
   document.title="에듀테크 도구함";
@@ -611,6 +622,13 @@ document.addEventListener("keydown",e=>{
     lines.push("innerWidth " + window.innerWidth + " / clientWidth " + de.clientWidth + " / scrollWidth " + de.scrollWidth);
     lines.push("visual " + (vv ? Math.round(vv.width) : "-") + " / scale " + (vv ? vv.scale.toFixed(2) : "-") + " / dpr " + window.devicePixelRatio);
     lines.push("board " + bw + " / body " + Math.round(document.body.getBoundingClientRect().width));
+    var app = document.getElementById("app");
+    if (app) {
+      var acs = getComputedStyle(app);
+      lines.push("board 안쪽 " + Math.round(app.clientWidth - parseFloat(acs.paddingLeft) - parseFloat(acs.paddingRight)) + " / --inner " + (document.documentElement.style.getPropertyValue("--inner") || "-"));
+      var chain = [".find", "#filt", "#finner"].map(function(s){ var e = document.querySelector(s); return e ? s + " " + Math.round(e.getBoundingClientRect().width) : s + " -"; });
+      lines.push(chain.join(" / "));
+    }
     var fr = document.querySelector(".frow"), cp = document.querySelector(".chips");
     if (fr && cp) {
       lines.push("frow " + Math.round(fr.getBoundingClientRect().left) + "~" + Math.round(fr.getBoundingClientRect().right) + " / chips " + Math.round(cp.getBoundingClientRect().left) + "~" + Math.round(cp.getBoundingClientRect().right));
