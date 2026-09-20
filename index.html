@@ -582,6 +582,27 @@ document.addEventListener("click",e=>{
 document.addEventListener("keydown",e=>{
   if((e.key==="Enter"||e.key===" ")&&e.target.matches("tr.go")){e.preventDefault();e.target.click()}
 });
+/* 화면 진단: 주소 끝에 ?diag 를 붙이면 폭 정보를 보여 준다 (평소에는 아무 일도 하지 않음) */
+if(location.search.indexOf("diag")>=0){
+  const box=document.createElement("div");
+  box.style.cssText="position:fixed;left:0;right:0;top:0;z-index:99;background:#111;color:#0f0;font:12px/1.5 monospace;padding:8px;white-space:pre-wrap;border-bottom:2px solid #0f0";
+  const show=()=>{
+    const de=document.documentElement, vv=window.visualViewport;
+    const over=[...document.querySelectorAll("*")].filter(e=>e.getBoundingClientRect().right>de.clientWidth+1)
+      .slice(0,4).map(e=>`${e.tagName}.${(e.className||"").toString().slice(0,18)} r=${Math.round(e.getBoundingClientRect().right)}`);
+    box.textContent=[
+      `innerWidth ${window.innerWidth} / clientWidth ${de.clientWidth} / scrollWidth ${de.scrollWidth}`,
+      `visual ${vv?Math.round(vv.width):"-"} scale ${vv?vv.scale.toFixed(2):"-"} dpr ${devicePixelRatio}`,
+      `board ${Math.round((document.querySelector(".board")||{getBoundingClientRect:()=>({width:0})}).getBoundingClientRect().width)} body ${Math.round(document.body.getBoundingClientRect().width)}`,
+      `넘친 것: ${over.length?over.join(" | "):"없음"}`,
+      navigator.userAgent.slice(0,90)
+    ].join("
+");
+  };
+  document.body.appendChild(box); show();
+  addEventListener("resize",show); addEventListener("scroll",show); visualViewport&&visualViewport.addEventListener("resize",show);
+  setInterval(show,1500);
+}
 /* 예전 공유 주소(#/tool/id)로 열었을 때만 첫 화면에 반영 */
 (()=>{const m=location.hash.match(/^#\/tool\/([0-9a-f]{24})/);if(m)current={name:"tool",id:m[1]};render(false)})();
 </script>
