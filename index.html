@@ -53,7 +53,7 @@ h1 u{text-decoration:none;background:linear-gradient(transparent 82%,var(--pink)
 .nums b{font:400 40px/1 var(--display);color:var(--chalk);font-variant-numeric:tabular-nums}
 .nums li:nth-child(2) b{color:var(--yellow)}
 /* 찾기 */
-.find{border-top:1px dashed var(--line);padding-top:18px;display:grid;gap:10px}
+.find{border-top:1px dashed var(--line);padding-top:18px;display:grid;gap:10px;min-width:0;max-width:100%}
 .searchrow{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
 .searchrow input{flex:1 1 320px;min-width:0;background:transparent;border:0;border-bottom:2px solid var(--chalk-3);color:var(--chalk);font:20px var(--body);padding:8px 2px}
 .searchrow input::placeholder{color:var(--chalk-3)}
@@ -67,7 +67,7 @@ h1 u{text-decoration:none;background:linear-gradient(transparent 82%,var(--pink)
 .chip[aria-pressed="true"]{border-color:var(--yellow);color:var(--board);background:var(--yellow)}
 .chip[aria-pressed="true"] small{color:var(--board)}
 .chip:disabled{opacity:.4;cursor:default}
-details.filt{border-top:1px dashed var(--line);padding-top:8px}
+details.filt{border-top:1px dashed var(--line);padding-top:8px;min-width:0;max-width:100%}
 details.filt>summary{cursor:pointer;font:22px var(--hand);color:var(--yellow);list-style:none;padding:2px 0}
 details.filt>summary::-webkit-details-marker{display:none}
 details.filt>summary::before{content:"＋ "}
@@ -167,9 +167,12 @@ tr.go{cursor:pointer} tr.go:hover td{background:var(--board-2)}
 .warn{border-left:3px solid var(--pink);padding-left:14px}
 .foot{margin:30px auto 0;max-width:1680px;font-size:13.5px;color:#E3D6C1;display:flex;flex-wrap:wrap;gap:4px 22px}
 .foot a{color:#F2E3C8}
+@media (max-width:359px){
+  .frow .chips{grid-template-columns:repeat(2,minmax(0,1fr))}
+}
 @media (max-width:600px){
-  /* 칸 수를 화면 폭이 정한다. 칩은 칸 안을 채우므로 밖으로 나갈 수 없다 */
-  .frow .chips{display:grid;grid-template-columns:repeat(auto-fit,minmax(96px,1fr));gap:5px;width:100%;min-width:0}
+  /* 칸 수를 못 박는다. 칸 최소값이 0이라 절대 넘칠 수 없다. 칩은 칸 안을 채우므로 밖으로 나갈 수 없다 */
+  .frow .chips{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:5px;width:auto;min-width:0;max-width:100%}
   .chip{white-space:normal;word-break:keep-all;text-align:center;padding:5px 3px;min-width:0;font-size:14px}
   .chip small{margin-left:3px;font-size:11.5px}
   .top{flex-direction:column;gap:2px}
@@ -608,6 +611,11 @@ document.addEventListener("keydown",e=>{
     lines.push("innerWidth " + window.innerWidth + " / clientWidth " + de.clientWidth + " / scrollWidth " + de.scrollWidth);
     lines.push("visual " + (vv ? Math.round(vv.width) : "-") + " / scale " + (vv ? vv.scale.toFixed(2) : "-") + " / dpr " + window.devicePixelRatio);
     lines.push("board " + bw + " / body " + Math.round(document.body.getBoundingClientRect().width));
+    var fr = document.querySelector(".frow"), cp = document.querySelector(".chips");
+    if (fr && cp) {
+      lines.push("frow " + Math.round(fr.getBoundingClientRect().left) + "~" + Math.round(fr.getBoundingClientRect().right) + " / chips " + Math.round(cp.getBoundingClientRect().left) + "~" + Math.round(cp.getBoundingClientRect().right));
+      lines.push("cols " + getComputedStyle(cp).gridTemplateColumns);
+    }
     lines.push(navigator.userAgent.slice(0, 80));
     box.textContent = lines.join(String.fromCharCode(10));
   }
