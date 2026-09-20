@@ -59,7 +59,7 @@ h1 u{text-decoration:none;background:linear-gradient(transparent 82%,var(--pink)
 .searchrow input::placeholder{color:var(--chalk-3)}
 .searchrow select{background:var(--board-2);color:var(--chalk);border:1.5px solid var(--chalk-3);border-radius:999px;padding:6px 12px;font:15px var(--body)}
 .hint{font-size:13px;color:var(--chalk-3);margin-top:-4px}
-.frow{display:grid;grid-template-columns:66px minmax(0,1fr);gap:6px 10px;align-items:start;min-width:0}
+.frow{display:grid;grid-template-columns:66px minmax(0,1fr);gap:6px 10px;align-items:start;min-width:0;max-width:100%}
 .frow .lab{font:20px/1 var(--hand);color:var(--chalk-2);padding-top:6px}
 .frow .chips{display:flex;flex-wrap:wrap;gap:6px 8px;align-items:center;min-width:0;max-width:100%}
 .chip{appearance:none;cursor:pointer;max-width:100%;background:transparent;color:var(--chalk-2);border:1.5px solid var(--chalk-3);border-radius:999px;font:14.5px var(--body);padding:3px 13px;white-space:nowrap}
@@ -67,13 +67,13 @@ h1 u{text-decoration:none;background:linear-gradient(transparent 82%,var(--pink)
 .chip[aria-pressed="true"]{border-color:var(--yellow);color:var(--board);background:var(--yellow)}
 .chip[aria-pressed="true"] small{color:var(--board)}
 .chip:disabled{opacity:.4;cursor:default}
-details.filt{border-top:1px dashed var(--line);padding-top:8px;min-width:0;max-width:100%}
+details.filt{border-top:1px dashed var(--line);padding-top:8px;min-width:0;width:var(--inner,auto);max-width:100%}
 details.filt>summary{cursor:pointer;font:22px var(--hand);color:var(--yellow);list-style:none;padding:2px 0}
 details.filt>summary::-webkit-details-marker{display:none}
 details.filt>summary::before{content:"＋ "}
 details.filt[open]>summary::before{content:"－ "}
 details.filt>summary small{font:14px var(--body);color:var(--chalk-2);margin-left:6px}
-details.filt .inner{display:grid;gap:10px;margin-top:8px;min-width:0}
+details.filt .inner{display:grid;gap:10px;margin-top:8px;min-width:0;width:100%;max-width:var(--inner,100%)}
 .subrule{border:0;border-top:1px dashed var(--line);margin:4px 0 0}
 .fnote{margin:10px 0 0;font-size:13.5px;color:var(--chalk-3)}
 .status{display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap;margin:22px 0 14px;color:var(--chalk-2);font-size:15px}
